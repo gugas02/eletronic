@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>testemx</title>
+	<script type="text/javascript">
+		mxBasePath = '../src';
+	</script>
+
+	<!-- Loads and initializes the library -->
+	<script type="text/javascript" src="../src/js/mxClient.js"></script>
+	<script type="text/javascript" src="js/PIC18F4550.js"></script>
+	<script type="text/javascript" src="js/edgeconnectionfixing.js"></script>
+	<script type="text/javascript" src="js/routing2.js"></script>
+	<script type="text/javascript" src="js/preview.js"></script>
+	<script type="text/javascript" src="js/edgetooltip.js"></script>
+	<script type="text/javascript" src="js/configuration.js"></script>
+	<script type="text/javascript" src="js/eventbinding.js"></script>
+	<script type="text/javascript" src="js/components.js"></script>
+	<script type="text/javascript" src="js/menubuilder.js"></script>
+
+	<!-- Example code -->
+	<script type="text/javascript">
+		//Specifies single clicks should add waypoints on the new edge.
+		mxConnectionHandler.prototype.waypointsEnabled = true;
+		var fillColor = '#FFFFFF';
+		var fontColor =  '#000000';
+		var strokeColor = '#000000';
+		// Program starts here. This function is invoked
+		// from the onLoad event handler of the document (see below).
+		function main(container)
+		{
+			mxEdgeHandler.prototype.snapToTerminals = true;
+		  	// Checks if the browser is supported
+			if (!mxClient.isBrowserSupported())
+			{
+				// Displays an error message if the browser is not supported.
+		    	mxUtils.error('Browser is not supported!', 200, false);
+			}
+			else 
+			{
+				// Creates the graph inside the DOM node.
+				var model = new mxGraphModel();
+				var graph = new mxGraph(container, model);
+				var parent = graph.getDefaultParent();
+				//configure graph settings				
+				configuration(graph);
+				//show tooltips on vertex
+				graph.setTooltips(true);
+				//enable tooltips in edges
+				edgeTooltip(graph);
+				//enable key events(delete,ctrl+z)
+				eventbinding(graph);
+
+				// Adds pic18f4550 to the model
+				model.beginUpdate();
+				try {
+					//call the function to crate the pic18f4550
+					PIC18F4550(graph,parent,fillColor,fontColor,strokeColor);
+				}
+				finally
+				{
+				  	model.endUpdate();
+				}
+
+				// function that create/handlle the popup menu
+				popup = graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
+				{
+					try{
+						if(cell.isVertex()){
+							currentCell = cell
+							var cell2 = currentCell
+						}
+						var item1 = menu.addItem('Inverter o lado','change','images/icons48/change.png', function(evt, cell){
+							var cell2 = currentCell
+							var child = cell2.getChildAt(0)
+							var  geo = cell2.getGeometry()
+							var  geo2 = child.getGeometry()
+							var test = [cell2]
+							graph.removeCells(test)
+							model.beginUpdate();
+							if(geo2.x == -8 || geo2.x == 0){
+								try {
+									ledleft(graph,parent,geo.x,geo.y,cell2.value)
+								}
+								finally
+								{
+								  	model.endUpdate();
+								}
+							}else{
+								try {
+									ledright(graph,parent,geo.x,geo.y,cell2.value)
+								}
+								finally
+								{
+								  	model.endUpdate();
+								}
+							}
+							
+						});
+					}catch(err){
+					    item = menu.addItem('Pwm',"Pwm", 'images/icons48/PWM.png', function(evt, cell){});
+					    item1 = menu.addItem('Led','Led','images/icons48/ledr.png', function(evt, cell){});
+					    item2 = menu.addItem('Adc',"Adc", 'images/icons48/adc.png', function(evt, cell){});
+					    item3 = menu.addItem('Interrupção externa',"IExt", 'images/icons48/int.png', function(evt, cell){});
+					    item4 = menu.addItem('Interrupção por timer',"ITmr", 'images/icons48/intT.png', function(evt, cell){});
+					    item5 = menu.addItem('Capture',"ICap", 'images/icons48/intCcpCa.png', function(evt, cell){});
+					    item6 = menu.addItem('Compare',"IComp", 'images/icons48/intCcpCo.png', function(evt, cell){});    
+					    item7 = menu.addItem('Botão',"Btn", 'images/icons48/btn.png', function(evt, cell){});
+				    }
+				};
+				function listener()
+				{
+					
+					try{
+	    				buildmenu(graph);
+					}catch(err){
+					}
+				}
+				graph.popupMenuHandler.addListener(mxEvent.SHOW, listener);
+				
+				
+	  		}
+	  	}
+	</script>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		#um{
+			width: auto;
+		}
+		#item{
+			float: left;
+			max-width: 80px;
+		}
+		#bl{
+			clear:both;
+		}
+		body div.mxPopupMenu {
+			-webkit-box-shadow: 3px 3px 6px #bcbcbc;
+			-moz-box-shadow: 3px 3px 6px #bcbcbc;
+			box-shadow: 3px 3px 6px #bcbcbc;
+			border: 1px solid #a0a0a0;
+			border-radius: 5px;
+			background: #bcbcbc;
+		}
+		body tr.mxPopupMenuItem {
+
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			color: black;
+			text-align: center;
+			background-color: #bcbcbc;
+			max-width: 80px;
+			width: 80px;
+			padding auto;
+    		text-align: -webkit-center;
+		}
+		body tr.mxPopupMenuItemHover {
+			border: 1px solid #a0a0a0;
+			border-radius: 10px;
+			background-color: #bcbcbc;
+			-webkit-box-shadow: 3px 3px 6px #a0a0a0;
+			-moz-box-shadow: 3px 3px 6px #a0a0a0;
+			box-shadow: 3px 3px 6px #a0a0a0;
+			color: black;
+			text-align: center;
+			padding-left: 2px;
+			padding-right: 2px;
+			max-width: 80px;
+
+		}
+		body td.mxPopupMenuIcon {
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			font-family: Arial;
+			font-size: 10pt;
+			background-color: #bcbcbc;
+		}
+
+		table.mxPopupMenu hr {
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			background-color: #bcbcbc;
+		}
+		table.mxPopupMenu tr {
+
+			font-size: 10pt;
+			background-color: #bcbcbc;
+		}
+		.mxPopupImg{
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+
+			max-width: 48px;
+			max-height: 48px;
+			background-color: #bcbcbc;
+		}
+		tbody {
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			background-color: #bcbcbc;
+		}
+	</style>
+</head>
+<body onload="main(document.getElementById('graphContainer'))">
+	<div id="graphContainer"
+		style="position:relative;overflow:auto;width:600px;height:600px;background:url('editors/images/grid.gif');cursor:default;">
+	</div>
+</body>
+</html>
