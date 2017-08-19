@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>testemx</title>
+	<script type="text/javascript">
+		mxBasePath = '../libmxgraph';
+	</script>
+
+	<!-- Loads and initializes the library -->
+	<script type="text/javascript" src="../libmxgraph/js/mxClient.js"></script>
+	<script type="text/javascript" src="js/PIC18F4550.js"></script>
+	<script type="text/javascript" src="js/edgeconnectionfixing.js"></script>
+	<script type="text/javascript" src="js/routing2.js"></script>
+	<script type="text/javascript" src="js/preview.js"></script>
+	<script type="text/javascript" src="js/edgetooltip.js"></script>
+	<script type="text/javascript" src="js/configuration.js"></script>
+	<script type="text/javascript" src="js/eventbinding.js"></script>
+	<script type="text/javascript" src="js/components.js"></script>
+
+	<!-- Example code -->
+	<script type="text/javascript">
+		//Specifies single clicks should add waypoints on the new edge.
+		mxConnectionHandler.prototype.waypointsEnabled = true;
+		var fillColor = '#FFFFFF';
+		var fontColor =  '#000000';
+		var strokeColor = '#000000';
+		// Program starts here. This function is invoked
+		// from the onLoad event handler of the document (see below).
+		function main(container)
+		{
+			mxEdgeHandler.prototype.snapToTerminals = true;
+		  	// Checks if the browser is supported
+			if (!mxClient.isBrowserSupported())
+			{
+				// Displays an error message if the browser is not supported.
+		    	mxUtils.error('Browser is not supported!', 200, false);
+			}
+			else 
+			{
+				// Creates the graph inside the DOM node.
+				var model = new mxGraphModel();
+				var graph = new mxGraph(container, model);
+				var parent = graph.getDefaultParent();
+				//configure graph settings				
+				configuration(graph);
+				//show tooltips on vertex
+				graph.setTooltips(true);
+				//enable tooltips in edges
+				edgeTooltip(graph);
+				//enable key events(delete,ctrl+z)
+				eventbinding(graph);
+				// Adds cells to the model
+				model.beginUpdate();
+				try {
+					//call the function to crate the pic18f4550
+					//PIC18F4550(graph,parent,fillColor,fontColor,strokeColor);
+					//ledleft(graph,parent,20,20,"led");
+				}
+				finally
+				{
+				  	model.endUpdate();
+				}
+
+				
+				graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
+				{	
+					var variavel    = menu.addItem('Variáveis'           ,'varia'  , 'images/icons48/varia.png'     , null);
+					var comparacoes = menu.addItem('Comparação'          ,'comp'   , 'images/icons48/COMP.png'      , null);
+				    var numericos   = menu.addItem('Numéricos'           ,'numeric', 'images/icons48/numeric.png'   , null);
+					var booleanos   = menu.addItem('Booleanos'           ,'boole'  , 'images/icons48/boole.png'     , null);
+					var estruturas  = menu.addItem('Estruturas'          ,'estru'  , 'images/icons48/estruturas.png', null);
+					var funcoes     = menu.addItem('Funções'             ,'func'   , 'images/icons48/func.png'      , null);
+					var estruturaD  = menu.addItem('Estruturas de dados' ,'estd'   , 'images/icons48/estdado.png'   , null);
+
+					menu.addItem('Char'               , 'char'   , 'images/icons48/8bit.png',null, variavel);
+					menu.addItem('Unsigned char'      , 'uchar'  , 'images/icons48/8bit.png',null, variavel);
+					menu.addItem('Int'                , 'int'    , 'images/icons48/16bit.png',null, variavel);
+					menu.addItem('Unsigned int'       , 'uint'   , 'images/icons48/16bit.png',null, variavel);
+					menu.addItem('Short'              , 'short'  , 'images/icons48/16bit.png',null, variavel);
+					menu.addItem('Unsigned short'     , 'ushort' , 'images/icons48/16bit.png',null, variavel);
+					menu.addItem('Short long'         , 'shortl' , 'images/icons48/24bit.png',null, variavel);
+					menu.addItem('Unsigned short long', 'ushortl', 'images/icons48/24bit.png',null, variavel);
+					menu.addItem('Long'               , 'long'   , 'images/icons48/32bit.png',null, variavel);
+					menu.addItem('Unsigned long'      , 'ulong'  , 'images/icons48/32bit.png',null, variavel);
+					menu.addItem('Float'              , 'flt'    , 'images/icons48/32bit.png',null, variavel);
+					menu.addItem('Ponteiro'           , 'ptr'    , 'images/icons48/varia.png',null, variavel);
+
+					menu.addItem('Menor que'       , '<' , 'images/icons48/menor.png',null, comparacoes);
+					menu.addItem('Menor ou igual a', '<=', 'images/icons48/menor=.png',null, comparacoes);
+					menu.addItem('Maior que'       , '>' , 'images/icons48/maior.png',null, comparacoes);
+					menu.addItem('Maior ou igual a', '>=', 'images/icons48/maior=.png',null, comparacoes);
+					menu.addItem('Igual a'         , '==', 'images/icons48/igualcomp.png',null, comparacoes);
+					menu.addItem('Diferente de'    , '!=', 'images/icons48/dif.png',null, comparacoes);
+
+					menu.addItem('Soma'         , '+', 'images/icons48/soma.png',null, numericos);
+					menu.addItem('Subtração'    , '-', 'images/icons48/subtr.png',null, numericos);
+					menu.addItem('Multiplicação', '*', 'images/icons48/numeric.png',null, numericos);
+					menu.addItem('Divisão'      , '/', 'images/icons48/divs.png',null, numericos);
+					menu.addItem('Módulo'       , '%', 'images/icons48/modulo.png',null, numericos);
+
+					menu.addItem('And'					     , '&&', 'images/icons48/and.png',null, booleanos);
+					menu.addItem('Or' 					     , '||', 'images/icons48/or.png',null, booleanos);
+					menu.addItem('Not'					     , '!' , 'images/icons48/not.png',null, booleanos);
+					menu.addItem('And bit a bit'             , '&' , 'images/icons48/andbit.png',null, booleanos);
+					menu.addItem('Or bit a bit'              , '|' , 'images/icons48/orbit.png',null, booleanos);
+					menu.addItem('Xor bit a bit'             , '^' , 'images/icons48/xor.png',null, booleanos);
+					menu.addItem('Not bit a bit'             , '~' , 'images/icons48/not.png',null, booleanos);
+					menu.addItem('Rodar a direita bit a bit' , '>>', 'images/icons48/rotr.png',null, booleanos);
+					menu.addItem('Rodar a esquerda bit a bit', '<<', 'images/icons48/rotl.png',null, booleanos);
+
+					menu.addItem('If'     ,     'if', 'images/icons48/if.png',null, estruturas);
+					menu.addItem('If else', 'ifelse', 'images/icons48/ifelse.png',null, estruturas);
+					menu.addItem('Switch' , 'switch', 'images/icons48/switch.png',null, estruturas);
+					menu.addItem('For'    ,    'for', 'images/icons48/for.png',null, estruturas);
+
+					menu.addItem('tamanho da variavel', 'size' , 'images/icons48/size.png',null, funcoes);
+					menu.addItem('Tipo da variavel'   , 'type' , 'images/icons48/type.png',null, funcoes);
+					menu.addItem('Criar função'       , 'criar', 'images/icons48/criar.png',null, funcoes);
+
+					menu.addItem('Struct'           , 'struct', 'images/icons48/struct.png',null, estruturaD);
+					menu.addItem('Campo de bit'     , 'cb'    , 'images/icons48/cb.png',null, estruturaD);
+					menu.addItem('Vetor de inteiros', 'arri'  , 'images/icons48/vtr.png',null, estruturaD);
+					menu.addItem('Vetor de long'    , 'arrl'  , 'images/icons48/vtr.png',null, estruturaD);
+					menu.addItem('Vetor de short'   , 'arrs'  , 'images/icons48/vtr.png',null, estruturaD);
+					menu.addItem('Vetor de ponteiro', 'arrp'  , 'images/icons48/vtr.png',null, estruturaD);
+					menu.addItem('String'           , 'str'   , 'images/icons48/vtr.png',null, estruturaD);
+
+
+
+
+				};
+	  		}
+	  	}
+	</script>
+	<style type="text/css">
+		<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		#um{
+			width: auto;
+		}
+		#item{
+			float: left;
+			max-width: 80px;
+		}
+		#bl{
+			clear:both;
+		}
+		body div.mxPopupMenu {
+			-webkit-box-shadow: 3px 3px 6px #bcbcbc;
+			-moz-box-shadow: 3px 3px 6px #bcbcbc;
+			box-shadow: 3px 3px 6px #bcbcbc;
+			border: 1px solid #a0a0a0;
+			border-radius: 5px;
+			background: #bcbcbc;
+			max-width: 335px;
+		}
+		body tr.mxPopupMenuItem {
+
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			color: black;
+			text-align: center;
+			background-color: #bcbcbc;
+			max-width: 80px;
+			width: 80px;
+			padding auto;
+    		text-align: -webkit-center;
+		}
+		body tr.mxPopupMenuItemHover {
+			border: 1px solid #a0a0a0;
+			border-radius: 10px;
+			background-color: #bcbcbc;
+			-webkit-box-shadow: 3px 3px 6px #a0a0a0;
+			-moz-box-shadow: 3px 3px 6px #a0a0a0;
+			box-shadow: 3px 3px 6px #a0a0a0;
+			color: black;
+			text-align: center;
+			padding-left: 2px;
+			padding-right: 2px;
+			max-width: 80px;
+
+		}
+		body td.mxPopupMenuIcon {
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			font-family: Arial;
+			font-size: 10pt;
+			background-color: #bcbcbc;
+		}
+
+		table.mxPopupMenu hr {
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			background-color: #bcbcbc;
+		}
+		table.mxPopupMenu tr {
+
+			font-size: 10pt;
+			background-color: #bcbcbc;
+		}
+		.mxPopupImg{
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+
+			max-width: 48px;
+			max-height: 48px;
+			background-color: #bcbcbc;
+		}
+		tbody {
+			border: 1px solid #bcbcbc;
+			border-radius: 10px;
+			background-color: #bcbcbc;
+		}
+	</style>
+	</style>
+</head>
+<body onload="main(document.getElementById('graphContainer'))">
+	<div id="graphContainer"
+		style="position:relative;overflow:auto;width:450px;height:441px;background:url('editors/images/grid.gif');cursor:default;">
+	</div>
+</body>
+</html>

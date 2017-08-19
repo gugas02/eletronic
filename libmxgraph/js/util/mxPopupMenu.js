@@ -52,6 +52,13 @@ mxPopupMenu.prototype.constructor = mxPopupMenu;
 mxPopupMenu.prototype.submenuImage = mxClient.imageBasePath + '/submenu.gif';
 
 /**
+ * Variable: submenuImage
+ * 
+ * URL of the image to be used for the submenu icon.
+ */
+mxPopupMenu.prototype.itemSubmenuCount = 0;
+
+/**
  * Variable: zIndex
  * 
  * Specifies the zIndex for the popupmenu and its shadow. Default is 1006.
@@ -195,45 +202,100 @@ mxPopupMenu.prototype.isPopupTrigger = function(me)
  */
 mxPopupMenu.prototype.addItem = function(title,id, image, funct, parent, iconCls, enabled, active)
 {
-	parent = parent || this;
-	this.itemCount++;
 	
-	// Smart separators only added if element contains items
-	if (parent.willAddSeparator)
-	{
-		if (parent.containsItems)
+	// verify if the item that is being added is a sub menu item, 
+	// and if its it ensure that the css of the submenu will not be bugged
+	if((parent != null)){
+		parent = parent || this;
+		this.itemSubmenuCount++;
+		parent.containsItems = true;
+		var tr = document.createElement('tr');
+		tr.className = 'mxPopupMenuItem';
+		tr.setAttribute("id", 'item');
+		var col1 = document.createElement('td');
+		col1.className = 'mxPopupMenuIcon';
+
+		var img = document.createElement('img');
+		
+		img.className = img.initialClassName;
+		img.setAttribute('src', image);
+		img.style.width = '48px';
+		img.style.height = '48px';
+		img.className = 'mxPopupImg';
+		img.setAttribute("id", id);
+
+		col1.appendChild(img);
+		div = document.createElement("div");
+		div.setAttribute('display', 'list-item');
+	    div.innerHTML = title; 
+	    col1.appendChild(div);
+
+	    tr.appendChild(col1);
+	    if (this.labels)
 		{
-			this.addSeparator(parent, true);
+			if (parent.div == null)
+			{
+				this.createSubmenu(parent);
+				//reset the counter in orther to dont mess with the css of the second menu
+				this.itemSubmenuCount = 1;
+
+			}
 		}
-
-		parent.willAddSeparator = false;
+		parent.tbody.appendChild(tr);
+		if((this.itemSubmenuCount%4)==0){
+			var divisor = document.createElement('tr');
+			divisor.setAttribute("id", 'bl');
+			parent.tbody.appendChild(divisor);
+		}
 	}
+	else
+	{
+		parent = parent || this;
+		this.itemCount++;
+		// Smart separators only added if element contains items
+		/*if (parent.willAddSeparator)
+		{
+			if (parent.containsItems)
+			{
+				this.addSeparator(parent, true);
+			}
 
-	parent.containsItems = true;
-	var tr = document.createElement('tr');
-	tr.className = 'mxPopupMenuItem';
-	tr.setAttribute("id", 'item');
-	var col1 = document.createElement('td');
-	col1.className = 'mxPopupMenuIcon';
+			parent.willAddSeparator = false;
+		}*/
 
-	var img = document.createElement('img');
-	
-	img.initialClassName = style || 'mxToolbarMode';
-	img.className = img.initialClassName;
-	img.setAttribute('src', image);
-	img.style.width = '48px';
-	img.style.height = '48px';
-	img.className = 'mxPopupImg';
-	img.setAttribute("id", id);
-    /*var btn = document.getElementById('leds');
-    var sla = btn.getElementsByTagName('td')
-    var img = mxUtils.createImage(image);
-	img.setAttribute('src', icon);*/
-	col1.appendChild(img);
-	div = document.createElement("div");
-	div.setAttribute('display', 'list-item');
-    div.innerHTML = title; 
-    col1.appendChild(div);
+		parent.containsItems = true;
+		var tr = document.createElement('tr');
+		tr.className = 'mxPopupMenuItem';
+		tr.setAttribute("id", 'item');
+		var col1 = document.createElement('td');
+		col1.className = 'mxPopupMenuIcon';
+
+		var img = document.createElement('img');
+		
+		img.className = img.initialClassName;
+		img.setAttribute('src', image);
+		img.style.width = '48px';
+		img.style.height = '48px';
+		img.className = 'mxPopupImg';
+		img.setAttribute("id", id);
+	    /*var btn = document.getElementById('leds');
+	    var sla = btn.getElementsByTagName('td')
+	    var img = mxUtils.createImage(image);
+		img.setAttribute('src', icon);*/
+		col1.appendChild(img);
+		div = document.createElement("div");
+		div.setAttribute('display', 'list-item');
+	    div.innerHTML = title; 
+	    col1.appendChild(div);
+	    tr.appendChild(col1);
+		parent.tbody.appendChild(tr);
+
+		if((this.itemCount%4)==0){
+			var divisor = document.createElement('tr');
+			divisor.setAttribute("id", 'bl');
+			parent.tbody.appendChild(divisor);
+		}
+	}
 
 	/*// Adds the given image into the first column
 	if (image != null)
@@ -249,9 +311,9 @@ mxPopupMenu.prototype.addItem = function(title,id, image, funct, parent, iconCls
 		col1.appendChild(div);
 	}*/
 	
-	tr.appendChild(col1);
+	//tr.appendChild(col1);
 	
-	if (this.labels)
+	/*if (this.labels)
 	{
 		/*var col2 = document.createElement('td');
 		col2.className = 'mxPopupMenuItem' +
@@ -267,15 +329,15 @@ mxPopupMenu.prototype.addItem = function(title,id, image, funct, parent, iconCls
 		col3.style.paddingRight = '6px';
 		col3.style.textAlign = 'right';
 		
-		tr.appendChild(col3);*/
+		tr.appendChild(col3);
 		
 		if (parent.div == null)
 		{
 			this.createSubmenu(parent);
 		}
-	}
+	}*/
 	
-	parent.tbody.appendChild(tr);
+	//parent.tbody.appendChild(tr);
 
 	if (active != false && enabled != false)
 	{
@@ -375,11 +437,7 @@ mxPopupMenu.prototype.addItem = function(title,id, image, funct, parent, iconCls
 			})
 		);
 	}
-	if((this.itemCount%4)==0){
-		var divisor = document.createElement('tr');
-		divisor.setAttribute("id", 'bl');
-		parent.tbody.appendChild(divisor);
-	}
+	
 	
 	return tr;
 };
