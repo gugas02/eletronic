@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/configuration.js"></script>
 	<script type="text/javascript" src="js/eventbinding.js"></script>
 	<script type="text/javascript" src="js/components.js"></script>
+	<script type="text/javascript" src="js/menubuilder.js"></script>
 
 	<!-- Example code -->
 	<script type="text/javascript">
@@ -85,28 +86,28 @@
 					menu.addItem('Float'              , 'flt'    , 'images/icons48/32bit.png',null, variavel);
 					menu.addItem('Ponteiro'           , 'ptr'    , 'images/icons48/varia.png',null, variavel);
 
-					menu.addItem('Menor que'       , '<' , 'images/icons48/menor.png'    ,null, comparacoes);
-					menu.addItem('Menor ou igual a', '<=', 'images/icons48/menor=.png'   ,null, comparacoes);
-					menu.addItem('Maior que'       , '>' , 'images/icons48/maior.png'    ,null, comparacoes);
-					menu.addItem('Maior ou igual a', '>=', 'images/icons48/maior=.png'   ,null, comparacoes);
-					menu.addItem('Igual a'         , '==', 'images/icons48/igualcomp.png',null, comparacoes);
-					menu.addItem('Diferente de'    , '!=', 'images/icons48/dif.png'      ,null, comparacoes);
+					menu.addItem('Menor que'       , 'menor' , 'images/icons48/menor.png'    ,null, comparacoes);
+					menu.addItem('Menor ou igual a', 'menor=', 'images/icons48/menor=.png'   ,null, comparacoes);
+					menu.addItem('Maior que'       , 'maior' , 'images/icons48/maior.png'    ,null, comparacoes);
+					menu.addItem('Maior ou igual a', 'maior=', 'images/icons48/maior=.png'   ,null, comparacoes);
+					menu.addItem('Igual a'         , 'igual', 'images/icons48/igualcomp.png',null, comparacoes);
+					menu.addItem('Diferente de'    , 'Diferente', 'images/icons48/dif.png'      ,null, comparacoes);
 
-					menu.addItem('Soma'         , '+', 'images/icons48/soma.png'   ,null, numericos);
-					menu.addItem('Subtração'    , '-', 'images/icons48/subtr.png'  ,null, numericos);
-					menu.addItem('Multiplicação', '*', 'images/icons48/numeric.png',null, numericos);
-					menu.addItem('Divisão'      , '/', 'images/icons48/divs.png'   ,null, numericos);
-					menu.addItem('Módulo'       , '%', 'images/icons48/modulo.png' ,null, numericos);
+					menu.addItem('Soma'         , 'mais', 'images/icons48/soma.png'   ,null, numericos);
+					menu.addItem('Subtração'    , 'menos', 'images/icons48/subtr.png'  ,null, numericos);
+					menu.addItem('Multiplicação', 'vezes', 'images/icons48/numeric.png',null, numericos);
+					menu.addItem('Divisão'      , 'dividido', 'images/icons48/divs.png'   ,null, numericos);
+					menu.addItem('Módulo'       , 'modulo', 'images/icons48/modulo.png' ,null, numericos);
 
-					menu.addItem('And'					     , '&&', 'images/icons48/and.png'   ,null, booleanos);
-					menu.addItem('Or' 					     , '||', 'images/icons48/or.png'    ,null, booleanos);
-					menu.addItem('Not'					     , '!' , 'images/icons48/not.png'   ,null, booleanos);
-					menu.addItem('And bit a bit'             , '&' , 'images/icons48/andbit.png',null, booleanos);
-					menu.addItem('Or bit a bit'              , '|' , 'images/icons48/orbit.png' ,null, booleanos);
-					menu.addItem('Xor bit a bit'             , '^' , 'images/icons48/xor.png'   ,null, booleanos);
-					menu.addItem('Not bit a bit'             , '~' , 'images/icons48/not.png'   ,null, booleanos);
-					menu.addItem('Rodar a direita bit a bit' , '>>', 'images/icons48/rotr.png'  ,null, booleanos);
-					menu.addItem('Rodar a esquerda bit a bit', '<<', 'images/icons48/rotl.png'  ,null, booleanos);
+					menu.addItem('And'					     , 'and', 'images/icons48/and.png'   ,null, booleanos);
+					menu.addItem('Or' 					     , 'or' , 'images/icons48/or.png'    ,null, booleanos);
+					menu.addItem('Not'					     , 'not', 'images/icons48/not.png'   ,null, booleanos);
+					menu.addItem('And bit a bit'             , 'andb' , 'images/icons48/andbit.png',null, booleanos);
+					menu.addItem('Or bit a bit'              , 'orb' , 'images/icons48/orbit.png' ,null, booleanos);
+					menu.addItem('Xor bit a bit'             , 'xorb' , 'images/icons48/xor.png'   ,null, booleanos);
+					menu.addItem('Not bit a bit'             , 'notb' , 'images/icons48/not.png'   ,null, booleanos);
+					menu.addItem('Rodar a direita bit a bit' , 'rotr', 'images/icons48/rotr.png'  ,null, booleanos);
+					menu.addItem('Rodar a esquerda bit a bit', 'rotl', 'images/icons48/rotl.png'  ,null, booleanos);
 
 					menu.addItem('If'     ,     'if', 'images/icons48/if.png'    ,null, estruturas);
 					menu.addItem('If else', 'ifelse', 'images/icons48/ifelse.png',null, estruturas);
@@ -124,11 +125,66 @@
 					menu.addItem('Vetor de short'   , 'arrs'  , 'images/icons48/vtr.png'   ,null, estruturaD);
 					menu.addItem('Vetor de ponteiro', 'arrp'  , 'images/icons48/vtr.png'   ,null, estruturaD);
 					menu.addItem('String'           , 'str'   , 'images/icons48/vtr.png'   ,null, estruturaD);
-
-
-
-
 				};
+				function listener()
+				{
+					
+					try{
+						try{
+							var variav = document.getElementById(char);
+							buildmenuvariavel(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				/*try{
+							var variav = document.getElementById(menor);
+							buildmenucomp(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				try{
+							var variav = document.getElementById(mais);
+							buildmenunum(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				try{
+							var variav = document.getElementById(and);
+							buildmenubool(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				try{
+							var variav = document.getElementById(ifelse);
+							buildmenustru(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				try{
+							var variav = document.getElementById(size);
+							buildmenufunc(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				try{
+							var variav = document.getElementById(struct);
+							buildmenustrud(graph);
+	    				}catch(err){
+	    					console.log(err)
+	    				}
+	    				/*buildmenuvariavel(graph);
+	    				buildmenucomp(graph);
+	    				buildmenunum(graph);
+	    				buildmenubool(graph);
+	    				buildmenustru(graph);
+	    				buildmenufunc(graph);
+	    				buildmenustrud(graph);*/
+					}catch(err){
+						console.log(err)
+
+					}
+				}
+				graph.popupMenuHandler.addListener(mxEvent.SHOW, listener);
 	  		}
 	  	}
 	</script>
