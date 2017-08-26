@@ -26,4 +26,6 @@ function configuration(graph)
 	graph.foldingEnabled = false;
 	// Disables built-in context menu
 	mxEvent.disableContextMenu(document.body);
+	// Enables HTML markup in all labels
+	graph.setHtmlLabels(true);
 }

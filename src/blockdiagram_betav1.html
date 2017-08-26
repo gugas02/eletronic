@@ -86,37 +86,37 @@
 					menu.addItem('Float'              , 'flt'    , 'images/icons48/32bit.png',null, variavel);
 					menu.addItem('Ponteiro'           , 'ptr'    , 'images/icons48/varia.png',null, variavel);
 
-					menu.addItem('Menor que'       , 'menor' , 'images/icons48/menor.png'    ,null, comparacoes);
-					menu.addItem('Menor ou igual a', 'menor=', 'images/icons48/menor=.png'   ,null, comparacoes);
-					menu.addItem('Maior que'       , 'maior' , 'images/icons48/maior.png'    ,null, comparacoes);
-					menu.addItem('Maior ou igual a', 'maior=', 'images/icons48/maior=.png'   ,null, comparacoes);
-					menu.addItem('Igual a'         , 'igual', 'images/icons48/igualcomp.png',null, comparacoes);
+					menu.addItem('Menor que'       , 'menor'    , 'images/icons48/menor.png'    ,null, comparacoes);
+					menu.addItem('Menor ou igual a', 'menor='   , 'images/icons48/menor=.png'   ,null, comparacoes);
+					menu.addItem('Maior que'       , 'maior'    , 'images/icons48/maior.png'    ,null, comparacoes);
+					menu.addItem('Maior ou igual a', 'maior='   , 'images/icons48/maior=.png'   ,null, comparacoes);
+					menu.addItem('Igual a'         , 'igual'    , 'images/icons48/igualcomp.png',null, comparacoes);
 					menu.addItem('Diferente de'    , 'Diferente', 'images/icons48/dif.png'      ,null, comparacoes);
 
-					menu.addItem('Soma'         , 'mais', 'images/icons48/soma.png'   ,null, numericos);
-					menu.addItem('Subtração'    , 'menos', 'images/icons48/subtr.png'  ,null, numericos);
-					menu.addItem('Multiplicação', 'vezes', 'images/icons48/numeric.png',null, numericos);
+					menu.addItem('Soma'         , 'mais'    , 'images/icons48/soma.png'   ,null, numericos);
+					menu.addItem('Subtração'    , 'menos'   , 'images/icons48/subtr.png'  ,null, numericos);
+					menu.addItem('Multiplicação', 'vezes'   , 'images/icons48/numeric.png',null, numericos);
 					menu.addItem('Divisão'      , 'dividido', 'images/icons48/divs.png'   ,null, numericos);
-					menu.addItem('Módulo'       , 'modulo', 'images/icons48/modulo.png' ,null, numericos);
+					menu.addItem('Módulo'       , 'modulo'  , 'images/icons48/modulo.png' ,null, numericos);
 
-					menu.addItem('And'					     , 'and', 'images/icons48/and.png'   ,null, booleanos);
-					menu.addItem('Or' 					     , 'or' , 'images/icons48/or.png'    ,null, booleanos);
-					menu.addItem('Not'					     , 'not', 'images/icons48/not.png'   ,null, booleanos);
+					menu.addItem('And'					     , 'and'  , 'images/icons48/and.png'   ,null, booleanos);
+					menu.addItem('Or' 					     , 'or'   , 'images/icons48/or.png'    ,null, booleanos);
+					menu.addItem('Not'					     , 'not'  , 'images/icons48/not.png'   ,null, booleanos);
 					menu.addItem('And bit a bit'             , 'andb' , 'images/icons48/andbit.png',null, booleanos);
-					menu.addItem('Or bit a bit'              , 'orb' , 'images/icons48/orbit.png' ,null, booleanos);
+					menu.addItem('Or bit a bit'              , 'orb'  , 'images/icons48/orbit.png' ,null, booleanos);
 					menu.addItem('Xor bit a bit'             , 'xorb' , 'images/icons48/xor.png'   ,null, booleanos);
 					menu.addItem('Not bit a bit'             , 'notb' , 'images/icons48/not.png'   ,null, booleanos);
-					menu.addItem('Rodar a direita bit a bit' , 'rotr', 'images/icons48/rotr.png'  ,null, booleanos);
-					menu.addItem('Rodar a esquerda bit a bit', 'rotl', 'images/icons48/rotl.png'  ,null, booleanos);
+					menu.addItem('Rodar a direita bit a bit' , 'rotr' , 'images/icons48/rotr.png'  ,null, booleanos);
+					menu.addItem('Rodar a esquerda bit a bit', 'rotl' , 'images/icons48/rotl.png'  ,null, booleanos);
 
 					menu.addItem('If'     ,     'if', 'images/icons48/if.png'    ,null, estruturas);
 					menu.addItem('If else', 'ifelse', 'images/icons48/ifelse.png',null, estruturas);
 					menu.addItem('Switch' , 'switch', 'images/icons48/switch.png',null, estruturas);
 					menu.addItem('For'    ,    'for', 'images/icons48/for.png'   ,null, estruturas);
  
-					menu.addItem('tamanho da variavel', 'size' , 'images/icons48/size.png' ,null, funcoes);
-					menu.addItem('Tipo da variavel'   , 'type' , 'images/icons48/type.png' ,null, funcoes);
-					menu.addItem('Criar função'       , 'criar', 'images/icons48/criar.png',null, funcoes);
+					menu.addItem('tamanho da variavel', 'sizeof', 'images/icons48/size.png' ,null, funcoes);
+					menu.addItem('Tipo da variavel'   , 'typeof', 'images/icons48/type.png' ,null, funcoes);
+					menu.addItem('Criar função'       , 'criar' , 'images/icons48/criar.png',null, funcoes);
 
 					menu.addItem('Struct'           , 'struct', 'images/icons48/struct.png',null, estruturaD);
 					menu.addItem('Campo de bit'     , 'cb'    , 'images/icons48/cb.png'    ,null, estruturaD);
@@ -136,7 +136,7 @@
 	    				}catch(err){
 	    					console.log(err)
 	    				}
-	    				/*try{
+	    				try{
 							var variav = document.getElementById(menor);
 							buildmenucomp(graph);
 	    				}catch(err){
@@ -161,7 +161,7 @@
 	    					console.log(err)
 	    				}
 	    				try{
-							var variav = document.getElementById(size);
+							var variav = document.getElementById(sizeof);
 							buildmenufunc(graph);
 	    				}catch(err){
 	    					console.log(err)
@@ -269,6 +269,42 @@
 			border: 1px solid #bcbcbc;
 			border-radius: 10px;
 			background-color: #bcbcbc;
+		}
+
+		table.title {
+			border-color: black;
+			border-collapse: collapse;
+			cursor: move;
+			height: 26px;
+			border-bottom-style: none;
+			color: black;
+		}
+		table.title th {
+			font-size: 10pt;
+			font-family: Verdana;
+			white-space: nowrap;
+			background: lightgray;
+			font-weight: bold;
+		}
+		table.erd {
+			font-size: 10pt;
+			font-family: Verdana;
+			border-color: black;
+			border-collapse: collapse;
+			overflow: auto;
+			cursor: move;
+			white-space: nowrap;
+		}
+		table.erd td {
+			border-color: black;
+			text-align: left;
+			color: black;
+		}
+		button {
+			position:absolute;
+		}
+		.input-vtr{
+			width: 95%;
 		}
 	</style>
 	</style>
